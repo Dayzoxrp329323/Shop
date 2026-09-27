@@ -1,0 +1,1984 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketPlace</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #087f5b;
+    cursor: pointer;
+}
+
+.search {
+    flex: 1;
+}
+
+.search input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 15px;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #087f5b;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #066b4d;
+}
+
+.btn-light {
+    background: #eee;
+}
+
+.hero {
+    background: linear-gradient(135deg, #087f5b, #15a36f);
+    color: white;
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px 20px;
+}
+
+.categories {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    margin-bottom: 25px;
+}
+
+.category {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 12px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.category:hover {
+    background: #087f5b;
+    color: white;
+}
+
+.section-title {
+    margin-bottom: 20px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: .2s;
+}
+
+.product:hover {
+    transform: translateY(-3px);
+}
+
+.product-image {
+    height: 210px;
+    background: #eee;
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.favorite {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: white;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    font-size: 19px;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-title {
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #087f5b;
+}
+
+.seller {
+    color: #777;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.rating {
+    color: #f59f00;
+    margin-top: 5px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.product-actions button {
+    flex: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close {
+    background: #eee;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-info {
+    flex: 1;
+}
+
+.cart-total {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+}
+
+.review {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.review-name {
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 50px;
+    background: #222;
+    color: white;
+    padding: 35px 20px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 25px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #222;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    display: none;
+    z-index: 3000;
+}
+
+.toast.show {
+    display: block;
+}
+
+.user-info {
+    background: #f1f8f5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.payment-option {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.payment-option:hover {
+    border-color: #087f5b;
+}
+
+@media(max-width: 700px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .search {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .nav-buttons {
+        margin-left: auto;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .product-image {
+        height: 160px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="navbar">
+
+        <div class="logo" onclick="goHome()">
+            MarketPlace
+        </div>
+
+        <div class="search">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Rechercher un article..."
+                oninput="searchProducts()"
+            >
+        </div>
+
+        <div class="nav-buttons">
+
+            <button class="btn-light" onclick="changeLanguage()">
+                🌍 <span id="languageText">FR</span>
+            </button>
+
+            <button class="btn-light" onclick="openFavorites()">
+                ❤️ <span id="favCount">0</span>
+            </button>
+
+            <button class="btn-light" onclick="openCart()">
+                🛒 <span id="cartCount">0</span>
+            </button>
+
+            <button class="btn-primary" onclick="openSell()">
+                + <span data-i18n="sell">Vendre</span>
+            </button>
+
+            <button class="btn-light" onclick="openLogin()" id="accountButton">
+                👤 <span data-i18n="login">Connexion</span>
+            </button>
+
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+
+    <h1 data-i18n="heroTitle">
+        Achète et vends facilement
+    </h1>
+
+    <p data-i18n="heroText">
+        Trouve de bonnes affaires près de chez toi.
+    </p>
+
+</section>
+
+<main class="container">
+
+    <div class="categories">
+
+        <div class="category" onclick="filterCategory('all')">
+            🏠 Tout
+        </div>
+
+        <div class="category" onclick="filterCategory('Mode')">
+            👕 Mode
+        </div>
+
+        <div class="category" onclick="filterCategory('Téléphones')">
+            📱 Téléphones
+        </div>
+
+        <div class="category" onclick="filterCategory('Maison')">
+            🏠 Maison
+        </div>
+
+        <div class="category" onclick="filterCategory('Jeux')">
+            🎮 Jeux
+        </div>
+
+        <div class="category" onclick="filterCategory('Sports')">
+            ⚽ Sports
+        </div>
+
+        <div class="category" onclick="filterCategory('Autre')">
+            📦 Autre
+        </div>
+
+    </div>
+
+    <h2 class="section-title" data-i18n="latest">
+        Dernières annonces
+    </h2>
+
+    <div class="products" id="products"></div>
+
+</main>
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+            <h3>MarketPlace</h3>
+            <p style="margin-top:10px;">
+                La plateforme pour acheter et vendre.
+            </p>
+        </div>
+
+        <div>
+            <h3>Informations</h3>
+            <p style="margin-top:10px;">À propos</p>
+            <p>Conditions</p>
+            <p>Confidentialité</p>
+        </div>
+
+        <div>
+            <h3>Aide</h3>
+            <p style="margin-top:10px;">Centre d'aide</p>
+            <p>Contact</p>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Modal
+            </h2>
+
+            <button class="close" onclick="closeModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast">
+    Ajouté au panier !
+</div>
+
+
+<script>
+
+/* =========================
+   DONNÉES
+========================= */
+
+let products = [
+
+    {
+        id: 1,
+        title: "Nike Air Max",
+        price: 75,
+        category: "Mode",
+        seller: "Alex",
+        rating: 4.8,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+        description: "Chaussures Nike en très bon état."
+    },
+
+    {
+        id: 2,
+        title: "iPhone",
+        price: 350,
+        category: "Téléphones",
+        seller: "Sarah",
+        rating: 4.9,
+        image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",
+        description: "Téléphone en excellent état."
+    },
+
+    {
+        id: 3,
+        title: "Canapé moderne",
+        price: 220,
+        category: "Maison",
+        seller: "Marc",
+        rating: 4.6,
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600",
+        description: "Canapé confortable pour salon."
+    },
+
+    {
+        id: 4,
+        title: "PlayStation 5",
+        price: 420,
+        category: "Jeux",
+        seller: "Lucas",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600",
+        description: "Console en excellent état."
+    },
+
+    {
+        id: 5,
+        title: "Vélo",
+        price: 180,
+        category: "Sports",
+        seller: "Emma",
+        rating: 4.7,
+        image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600",
+        description: "Vélo idéal pour les balades."
+    },
+
+    {
+        id: 6,
+        title: "Sac à dos",
+        price: 35,
+        category: "Mode",
+        seller: "Thomas",
+        rating: 4.5,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
+        description: "Sac à dos pratique."
+    }
+
+];
+
+
+/* =========================
+   ÉTAT
+========================= */
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let favorites =
+    JSON.parse(localStorage.getItem("favorites")) || [];
+
+let reviews =
+    JSON.parse(localStorage.getItem("reviews")) || [];
+
+let currentUser =
+    JSON.parse(localStorage.getItem("currentUser")) || null;
+
+let currentLanguage =
+    localStorage.getItem("language") || "fr";
+
+
+/* =========================
+   TRADUCTIONS
+========================= */
+
+const translations = {
+
+    fr: {
+
+        sell: "Vendre",
+        login: "Connexion",
+        heroTitle: "Achète et vends facilement",
+        heroText: "Trouve de bonnes affaires près de chez toi.",
+        latest: "Dernières annonces"
+
+    },
+
+    en: {
+
+        sell: "Sell",
+        login: "Login",
+        heroTitle: "Buy and sell easily",
+        heroText: "Find great deals near you.",
+        latest: "Latest listings"
+
+    },
+
+    es: {
+
+        sell: "Vender",
+        login: "Iniciar sesión",
+        heroTitle: "Compra y vende fácilmente",
+        heroText: "Encuentra buenas ofertas cerca de ti.",
+        latest: "Últimos anuncios"
+
+    }
+
+};
+
+
+/* =========================
+   AFFICHER PRODUITS
+========================= */
+
+function displayProducts(list = products) {
+
+    const container =
+        document.getElementById("products");
+
+    if (list.length === 0) {
+
+        container.innerHTML =
+            `<div class="empty">
+                Aucun article trouvé.
+            </div>`;
+
+        return;
+    }
+
+    container.innerHTML = list.map(product => {
+
+        const isFavorite =
+            favorites.includes(product.id);
+
+        return `
+
+        <div class="product">
+
+            <div class="product-image">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.title}"
+                >
+
+                <button
+                    class="favorite"
+                    onclick="toggleFavorite(${product.id})"
+                >
+                    ${isFavorite ? "❤️" : "♡"}
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-title">
+                    ${product.title}
+                </div>
+
+                <div class="price">
+                    ${product.price} €
+                </div>
+
+                <div class="seller">
+                    Vendeur : ${product.seller}
+                </div>
+
+                <div class="rating">
+                    ⭐ ${product.rating}
+                </div>
+
+                <div class="product-actions">
+
+                    <button
+                        class="btn-light"
+                        onclick="viewProduct(${product.id})"
+                    >
+                        Voir
+                    </button>
+
+                    <button
+                        class="btn-primary"
+                        onclick="addToCart(${product.id})"
+                    >
+                        🛒
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   RECHERCHE
+========================= */
+
+function searchProducts() {
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const results =
+        products.filter(product =>
+            product.title.toLowerCase().includes(search) ||
+            product.category.toLowerCase().includes(search)
+        );
+
+    displayProducts(results);
+}
+
+
+/* =========================
+   FILTRE
+========================= */
+
+function filterCategory(category) {
+
+    if (category === "all") {
+
+        displayProducts(products);
+
+        return;
+    }
+
+    const results =
+        products.filter(
+            product => product.category === category
+        );
+
+    displayProducts(results);
+}
+
+
+/* =========================
+   PANIER
+========================= */
+
+function addToCart(id) {
+
+    const product =
+        products.find(p => p.id === id);
+
+    if (!product) return;
+
+    cart.push(product);
+
+    saveCart();
+
+    updateCounts();
+
+    showToast("Article ajouté au panier 🛒");
+}
+
+
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    saveCart();
+
+    updateCounts();
+
+    openCart();
+}
+
+
+function saveCart() {
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+function openCart() {
+
+    let content = "";
+
+    if (cart.length === 0) {
+
+        content = `
+            <div class="empty">
+                🛒<br><br>
+                Votre panier est vide.
+            </div>
+        `;
+
+    } else {
+
+        content = cart.map((product, index) => `
+
+            <div class="cart-item">
+
+                <img src="${product.image}">
+
+                <div class="cart-info">
+
+                    <strong>
+                        ${product.title}
+                    </strong>
+
+                    <div>
+                        ${product.price} €
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn-light"
+                    onclick="removeFromCart(${index})"
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+        `).join("");
+
+        const total =
+            cart.reduce(
+                (sum, product) =>
+                    sum + product.price,
+                0
+            );
+
+        content += `
+
+            <div class="cart-total">
+
+                <span>Total</span>
+
+                <span>
+                    ${total.toFixed(2)} €
+                </span>
+
+            </div>
+
+            <button
+                class="btn-primary"
+                style="width:100%;margin-top:20px;"
+                onclick="openCheckout()"
+            >
+                💳 Passer au paiement
+            </button>
+
+        `;
+
+    }
+
+    openModal(
+        currentLanguage === "fr"
+        ? "Mon panier"
+        : "My cart",
+        content
+    );
+
+}
+
+
+/* =========================
+   CHECKOUT DÉMO
+========================= */
+
+function openCheckout() {
+
+    if (cart.length === 0) return;
+
+    const total =
+        cart.reduce(
+            (sum, product) =>
+                sum + product.price,
+            0
+        );
+
+    const content = `
+
+        <div class="user-info">
+
+            <strong>
+                Total à payer :
+            </strong>
+
+            <div style="
+                font-size:28px;
+                color:#087f5b;
+                margin-top:8px;
+            ">
+                ${total.toFixed(2)} €
+            </div>
+
+        </div>
+
+        <h3 style="margin-bottom:15px;">
+            Choisissez votre moyen de paiement
+        </h3>
+
+        <div
+            class="payment-option"
+            onclick="fakePayment('Carte bancaire')"
+        >
+            💳 <strong>Carte bancaire</strong>
+            <br>
+            <small>Visa, Mastercard, etc.</small>
+        </div>
+
+        <div
+            class="payment-option"
+            onclick="fakePayment('PayPal')"
+        >
+            🅿️ <strong>PayPal</strong>
+        </div>
+
+        <p style="
+            margin-top:20px;
+            color:#777;
+            font-size:13px;
+        ">
+            ⚠️ Ceci est une démonstration.
+            Aucun paiement réel n'est effectué.
+        </p>
+
+    `;
+
+    openModal("Paiement", content);
+}
+
+
+function fakePayment(method) {
+
+    const total =
+        cart.reduce(
+            (sum, product) =>
+                sum + product.price,
+            0
+        );
+
+    setTimeout(() => {
+
+        cart = [];
+
+        saveCart();
+
+        updateCounts();
+
+        openModal(
+
+            "Paiement réussi ✅",
+
+            `
+            <div style="text-align:center;padding:20px;">
+
+                <div style="font-size:60px;">
+                    ✅
+                </div>
+
+                <h2>
+                    Commande confirmée !
+                </h2>
+
+                <p style="margin:15px 0;">
+                    Paiement de
+                    <strong>
+                        ${total.toFixed(2)} €
+                    </strong>
+                    avec ${method}.
+                </p>
+
+                <p style="color:#777;">
+                    Ceci est uniquement une simulation.
+                </p>
+
+                <button
+                    class="btn-primary"
+                    style="margin-top:15px;"
+                    onclick="closeModal()"
+                >
+                    Continuer
+                </button>
+
+            </div>
+            `
+        );
+
+    }, 500);
+
+}
+
+
+/* =========================
+   FAVORIS
+========================= */
+
+function toggleFavorite(id) {
+
+    if (favorites.includes(id)) {
+
+        favorites =
+            favorites.filter(
+                item => item !== id
+            );
+
+    } else {
+
+        favorites.push(id);
+
+    }
+
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
+
+    updateCounts();
+
+    displayProducts();
+
+}
+
+
+function openFavorites() {
+
+    const list =
+        products.filter(
+            product =>
+                favorites.includes(product.id)
+        );
+
+    if (list.length === 0) {
+
+        openModal(
+            "Favoris",
+            `<div class="empty">
+                ❤️ Aucun favori.
+            </div>`
+        );
+
+        return;
+    }
+
+    const html =
+        list.map(product => `
+
+            <div class="cart-item">
+
+                <img src="${product.image}">
+
+                <div class="cart-info">
+
+                    <strong>
+                        ${product.title}
+                    </strong>
+
+                    <div>
+                        ${product.price} €
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn-primary"
+                    onclick="addToCart(${product.id})"
+                >
+                    🛒
+                </button>
+
+            </div>
+
+        `).join("");
+
+    openModal("Mes favoris", html);
+
+}
+
+
+/* =========================
+   PRODUIT
+========================= */
+
+function viewProduct(id) {
+
+    const product =
+        products.find(
+            p => p.id === id
+        );
+
+    if (!product) return;
+
+    const productReviews =
+        reviews.filter(
+            r => r.productId === id
+        );
+
+    let reviewHTML = "";
+
+    if (productReviews.length === 0) {
+
+        reviewHTML =
+            `<p style="color:#777;">
+                Aucun avis pour le moment.
+            </p>`;
+
+    } else {
+
+        reviewHTML =
+            productReviews.map(review => `
+
+                <div class="review">
+
+                    <div class="review-name">
+                        ${review.name}
+                    </div>
+
+                    <div class="rating">
+                        ${"⭐".repeat(review.rating)}
+                    </div>
+
+                    <p>
+                        ${review.comment}
+                    </p>
+
+                </div>
+
+            `).join("");
+
+    }
+
+    openModal(
+
+        product.title,
+
+        `
+
+        <img
+            src="${product.image}"
+            style="
+                width:100%;
+                max-height:300px;
+                object-fit:cover;
+                border-radius:10px;
+            "
+        >
+
+        <h2 style="margin-top:15px;">
+            ${product.price} €
+        </h2>
+
+        <p style="margin-top:10px;">
+            ${product.description}
+        </p>
+
+        <p style="
+            margin-top:10px;
+            color:#777;
+        ">
+            Vendu par ${product.seller}
+        </p>
+
+        <div class="rating">
+            ⭐ ${product.rating}
+        </div>
+
+        <button
+            class="btn-primary"
+            style="width:100%;margin-top:15px;"
+            onclick="addToCart(${product.id})"
+        >
+            🛒 Ajouter au panier
+        </button>
+
+        <hr style="margin:25px 0;">
+
+        <h3>
+            Avis
+        </h3>
+
+        <div style="margin-top:10px;">
+            ${reviewHTML}
+        </div>
+
+        <button
+            class="btn-light"
+            style="width:100%;margin-top:15px;"
+            onclick="addReview(${product.id})"
+        >
+            ⭐ Laisser un avis
+        </button>
+
+        `
+
+    );
+
+}
+
+
+/* =========================
+   AVIS
+========================= */
+
+function addReview(productId) {
+
+    const content = `
+
+        <div class="form-group">
+
+            <label>
+                Votre nom
+            </label>
+
+            <input
+                id="reviewName"
+                placeholder="Votre nom"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Note
+            </label>
+
+            <select id="reviewRating">
+
+                <option value="5">
+                    ⭐⭐⭐⭐⭐
+                </option>
+
+                <option value="4">
+                    ⭐⭐⭐⭐
+                </option>
+
+                <option value="3">
+                    ⭐⭐⭐
+                </option>
+
+                <option value="2">
+                    ⭐⭐
+                </option>
+
+                <option value="1">
+                    ⭐
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Commentaire
+            </label>
+
+            <textarea
+                id="reviewComment"
+                placeholder="Votre avis..."
+            ></textarea>
+
+        </div>
+
+        <button
+            class="btn-primary"
+            style="width:100%;"
+            onclick="submitReview(${productId})"
+        >
+            Publier
+        </button>
+
+    `;
+
+    openModal(
+        "Laisser un avis",
+        content
+    );
+
+}
+
+
+function submitReview(productId) {
+
+    const name =
+        document.getElementById(
+            "reviewName"
+        ).value.trim();
+
+    const rating =
+        Number(
+            document.getElementById(
+                "reviewRating"
+            ).value
+        );
+
+    const comment =
+        document.getElementById(
+            "reviewComment"
+        ).value.trim();
+
+    if (!name || !comment) {
+
+        alert(
+            "Remplis tous les champs."
+        );
+
+        return;
+    }
+
+    reviews.push({
+
+        productId,
+        name,
+        rating,
+        comment
+
+    });
+
+    localStorage.setItem(
+        "reviews",
+        JSON.stringify(reviews)
+    );
+
+    showToast(
+        "Avis publié ⭐"
+    );
+
+    closeModal();
+
+}
+
+
+/* =========================
+   VENDRE
+========================= */
+
+function openSell() {
+
+    const content = `
+
+        <div class="form-group">
+
+            <label>
+                Nom de l'article
+            </label>
+
+            <input
+                id="newTitle"
+                placeholder="Ex : Veste Nike"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Prix (€)
+            </label>
+
+            <input
+                id="newPrice"
+                type="number"
+                placeholder="50"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Catégorie
+            </label>
+
+            <select id="newCategory">
+
+                <option>Mode</option>
+                <option>Téléphones</option>
+                <option>Maison</option>
+                <option>Jeux</option>
+                <option>Sports</option>
+                <option>Autre</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                id="newDescription"
+                placeholder="Décris ton article..."
+            ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                URL de l'image
+            </label>
+
+            <input
+                id="newImage"
+                placeholder="https://..."
+            >
+
+        </div>
+
+        <button
+            class="btn-primary"
+            style="width:100%;"
+            onclick="createProduct()"
+        >
+            Publier l'annonce
+        </button>
+
+    `;
+
+    openModal(
+        "Vendre un article",
+        content
+    );
+
+}
+
+
+function createProduct() {
+
+    const title =
+        document.getElementById(
+            "newTitle"
+        ).value.trim();
+
+    const price =
+        Number(
+            document.getElementById(
+                "newPrice"
+            ).value
+        );
+
+    const category =
+        document.getElementById(
+            "newCategory"
+        ).value;
+
+    const description =
+        document.getElementById(
+            "newDescription"
+        ).value.trim();
+
+    const image =
+        document.getElementById(
+            "newImage"
+        ).value.trim();
+
+    if (
+        !title ||
+        !price ||
+        !description
+    ) {
+
+        alert(
+            "Remplis les champs obligatoires."
+        );
+
+        return;
+    }
+
+    const newProduct = {
+
+        id: Date.now(),
+
+        title,
+
+        price,
+
+        category,
+
+        seller:
+            currentUser
+            ? currentUser.name
+            : "Utilisateur",
+
+        rating: 0,
+
+        image:
+            image ||
+            "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+
+        description
+
+    };
+
+    products.unshift(
+        newProduct
+    );
+
+    closeModal();
+
+    displayProducts();
+
+    showToast(
+        "Annonce publiée 🎉"
+    );
+
+}
+
+
+/* =========================
+   CONNEXION
+========================= */
+
+function openLogin() {
+
+    if (currentUser) {
+
+        openModal(
+
+            "Mon compte",
+
+            `
+
+            <div class="user-info">
+
+                <h3>
+                    👤 ${currentUser.name}
+                </h3>
+
+                <p style="margin-top:7px;">
+                    ${currentUser.email}
+                </p>
+
+            </div>
+
+            <button
+                class="btn-light"
+                style="width:100%;"
+                onclick="logout()"
+            >
+                Déconnexion
+            </button>
+
+            `
+
+        );
+
+        return;
+    }
+
+    const content = `
+
+        <div class="form-group">
+
+            <label>
+                Nom
+            </label>
+
+            <input
+                id="loginName"
+                placeholder="Ton nom"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="email@example.com"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Mot de passe
+            </label>
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="••••••••"
+            >
+
+        </div>
+
+        <button
+            class="btn-primary"
+            style="width:100%;"
+            onclick="login()"
+        >
+            Se connecter
+        </button>
+
+    `;
+
+    openModal(
+        "Connexion",
+        content
+    );
+
+}
+
+
+function login() {
+
+    const name =
+        document.getElementById(
+            "loginName"
+        ).value.trim();
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
+
+    if (!name || !email) {
+
+        alert(
+            "Remplis ton nom et ton email."
+        );
+
+        return;
+    }
+
+    currentUser = {
+
+        name,
+        email
+
+    };
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(currentUser)
+    );
+
+    updateAccountButton();
+
+    closeModal();
+
+    showToast(
+        "Connexion réussie 👋"
+    );
+
+}
+
+
+function logout() {
+
+    currentUser = null;
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+    updateAccountButton();
+
+    closeModal();
+
+    showToast(
+        "Déconnexion réussie."
+    );
+
+}
+
+
+function updateAccountButton() {
+
+    const button =
+        document.getElementById(
+            "accountButton"
+        );
+
+    if (currentUser) {
+
+        button.innerHTML =
+            `👤 ${currentUser.name}`;
+
+    } else {
+
+        button.innerHTML =
+            `👤 <span data-i18n="login">Connexion</span>`;
+
+    }
+
+}
+
+
+/* =========================
+   LANGUES
+========================= */
+
+function changeLanguage() {
+
+    const languages =
+        ["fr", "en", "es"];
+
+    const current =
+        languages.indexOf(
+            currentLanguage
+        );
+
+    currentLanguage =
+        languages[
+            (current + 1) %
+            languages.length
+        ];
+
+    localStorage.setItem(
+        "language",
+        currentLanguage
+    );
+
+    applyLanguage();
+
+}
+
+
+function applyLanguage() {
+
+    const language =
+        translations[
+            currentLanguage
+        ];
+
+    document
+        .querySelectorAll(
+            "[data-i18n]"
+        )
+        .forEach(element => {
+
+            const key =
+                element.dataset.i18n;
+
+            if (language[key]) {
+
+                element.textContent =
+                    language[key];
+
+            }
+
+        });
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+        currentLanguage.toUpperCase();
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(title, content) {
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent = title;
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML = content;
+
+    document.getElementById(
+        "modal"
+    ).classList.add("active");
+
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "modal"
+    ).classList.remove("active");
+
+}
+
+
+document
+    .getElementById("modal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   COMPTEURS
+========================= */
+
+function updateCounts() {
+
+    document.getElementById(
+        "cartCount"
+    ).textContent =
+        cart.length;
+
+    document.getElementById(
+        "favCount"
+    ).textContent =
+        favorites.length;
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    }, 2500);
+
+}
+
+
+/* =========================
+   ACCUEIL
+========================= */
+
+function goHome() {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+    displayProducts();
+
+}
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+displayProducts();
+
+updateCounts();
+
+updateAccountButton();
+
+applyLanguage();
+
+</script>
+
+</body>
+</html>
+```
